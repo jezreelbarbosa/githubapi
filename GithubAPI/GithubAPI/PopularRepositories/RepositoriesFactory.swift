@@ -11,7 +11,10 @@ enum RepositoriesFactory {
     static func make() -> RepositoriesViewController {
         let dispatcher = Dispatcher()
         let service = RepositoriesService(dispatcher: dispatcher)
-        let viewModel = RepositoriesViewModel(service: service)
-        return RepositoriesViewController(viewModel: viewModel)
+        let coordinator = RepositoriesCoordinator()
+        let viewModel = RepositoriesViewModel(service: service, coordinator: coordinator)
+        let controller = RepositoriesViewController(viewModel: viewModel)
+        coordinator.viewController = controller
+        return controller
     }
 }

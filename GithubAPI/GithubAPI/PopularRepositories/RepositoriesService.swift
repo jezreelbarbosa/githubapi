@@ -13,8 +13,8 @@ protocol RepositoriesServicing {
 }
 
 extension RepositoriesService {
-    func swiftPopular(page: Int) -> GitHubApi {
-        GitHubApi(
+    func swiftPopular(page: Int) -> GitHubApiTarget {
+        GitHubApiTarget(
             path: "/search/repositories",
             parameters: [
                 "q": "language:Swift",
@@ -24,8 +24,8 @@ extension RepositoriesService {
         )
     }
 
-    func user(login: String) -> GitHubApi {
-        GitHubApi(path: "/users/\(login)")
+    func user(login: String) -> GitHubApiTarget {
+        GitHubApiTarget(path: "/users/\(login)")
     }
 }
 

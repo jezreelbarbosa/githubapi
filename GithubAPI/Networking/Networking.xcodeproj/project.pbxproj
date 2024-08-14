@@ -13,7 +13,7 @@
 		0D75CF242C6BB54700C76438 /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75CF232C6BB54700C76438 /* TargetType.swift */; };
 		0D75CF262C6BB56100C76438 /* TargetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75CF252C6BB56100C76438 /* TargetError.swift */; };
 		0D75CF282C6BB78B00C76438 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75CF272C6BB78B00C76438 /* Dispatcher.swift */; };
-		0D989CD32C6C3C3F00A61C1F /* GitHubApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D989CD22C6C3C3F00A61C1F /* GitHubApi.swift */; };
+		0D989CD32C6C3C3F00A61C1F /* GitHubApiTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D989CD22C6C3C3F00A61C1F /* GitHubApiTarget.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,7 +34,7 @@
 		0D75CF232C6BB54700C76438 /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
 		0D75CF252C6BB56100C76438 /* TargetError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetError.swift; sourceTree = "<group>"; };
 		0D75CF272C6BB78B00C76438 /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
-		0D989CD22C6C3C3F00A61C1F /* GitHubApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubApi.swift; sourceTree = "<group>"; };
+		0D989CD22C6C3C3F00A61C1F /* GitHubApiTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubApiTarget.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +81,7 @@
 				0D75CF272C6BB78B00C76438 /* Dispatcher.swift */,
 				0D75CF232C6BB54700C76438 /* TargetType.swift */,
 				0D75CF252C6BB56100C76438 /* TargetError.swift */,
-				0D989CD22C6C3C3F00A61C1F /* GitHubApi.swift */,
+				0D989CD22C6C3C3F00A61C1F /* GitHubApiTarget.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -207,7 +207,7 @@
 				0D75CF242C6BB54700C76438 /* TargetType.swift in Sources */,
 				0D75CF262C6BB56100C76438 /* TargetError.swift in Sources */,
 				0D75CF282C6BB78B00C76438 /* Dispatcher.swift in Sources */,
-				0D989CD32C6C3C3F00A61C1F /* GitHubApi.swift in Sources */,
+				0D989CD32C6C3C3F00A61C1F /* GitHubApiTarget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

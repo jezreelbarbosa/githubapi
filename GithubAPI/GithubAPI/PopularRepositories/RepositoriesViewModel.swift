@@ -28,11 +28,13 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
     var page: Int = 1
 
     let service: RepositoriesServicing
+    let coordinator: RepositoriesCoordinating
 
     // Lifecycle
 
-    init(service: RepositoriesServicing) {
+    init(service: RepositoriesServicing, coordinator: RepositoriesCoordinating) {
         self.service = service
+        self.coordinator = coordinator
     }
 
     // Functions
@@ -54,7 +56,7 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
     }
 
     func didSelect(item: RepositoryModel) {
-
+        coordinator.showPullRequestsView()
     }
 
     // Private functions
