@@ -12,15 +12,22 @@ final class RepositoriesViewController: UICodeViewController<RepositoriesViewMod
     // Lifecycle
 
     override func viewDidLoad() {
+        navigationItem.title = "Swift Popular"
+
         rootView.tableView.dataSource = self
         rootView.tableView.delegate = self
 
+        viewModel.isLoading.bind { [weak self] isLoading in
+            self?.rootView.activity.animate(isLoading)
+        }
+        viewModel.isTableLoading.bind { [weak self] isLoading in
+            self?.rootView.tableActivity.animate(isLoading)
+        }
         viewModel.reloadData.bind { [weak self] _ in
             DispatchQueue.main.async {
                 self?.rootView.tableView.reloadData()
             }
         }
-
         viewModel.reloadCell.bind { [weak self] row in
             DispatchQueue.main.async {
                 self?.rootView.tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)

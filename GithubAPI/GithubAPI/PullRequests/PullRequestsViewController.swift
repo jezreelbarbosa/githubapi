@@ -15,12 +15,17 @@ final class PullRequestsViewController: UICodeViewController<PullRequestsViewMod
         rootView.tableView.dataSource = self
         rootView.tableView.delegate = self
 
+        viewModel.navigationTitle.bindAndFire { [weak self] title in
+            self?.navigationItem.title = title
+        }
+        viewModel.isLoading.bind { [weak self] isLoading in
+            self?.rootView.activity.animate(isLoading)
+        }
         viewModel.reloadData.bind { [weak self] _ in
             DispatchQueue.main.async {
                 self?.rootView.tableView.reloadData()
             }
         }
-
         viewModel.reloadCell.bind { [weak self] row in
             DispatchQueue.main.async {
                 self?.rootView.tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)

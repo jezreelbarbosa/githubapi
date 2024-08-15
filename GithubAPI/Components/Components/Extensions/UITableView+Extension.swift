@@ -19,4 +19,18 @@ public extension UITableView {
         }
         return cell
     }
+
+    func layoutTableHeaderFooterView() {
+        layoutView(tableHeaderView)
+        layoutView(tableFooterView)
+    }
+
+    private func layoutView(_ view: UIView?) {
+        guard let view = view else { return }
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+        view.frame.size.height = view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+        view.translatesAutoresizingMaskIntoConstraints = true
+    }
 }

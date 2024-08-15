@@ -10,6 +10,8 @@ import Components
 protocol RepositoriesViewModeling {
     var repositories: [RepositoryModel] { get }
 
+    var isLoading: Box<Bool> { get }
+    var isTableLoading: Box<Bool> { get }
     var reloadData: Box<Void> { get }
     var reloadCell: Box<Int> { get }
 
@@ -22,6 +24,8 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
 
     var repositories: [RepositoryModel] = []
 
+    let isLoading: Box<Bool> = Box(false)
+    let isTableLoading: Box<Bool> = Box(false)
     let reloadData: Box<Void> = Box(())
     let reloadCell: Box<Int> = Box(0)
 
@@ -40,8 +44,15 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
     // Functions
 
     func loadNextPage() {
+        if page == 1 {
+            isLoading.value = true
+        } else {
+            isTableLoading.value = true
+        }
         service.loadPage(page) { [weak self] result in
             guard let self = self else { return }
+            self.isLoading.value = false
+            self.isTableLoading.value = false
             result.successHandler { model in
                 let repos = model.items
                 let count = self.repositories.count

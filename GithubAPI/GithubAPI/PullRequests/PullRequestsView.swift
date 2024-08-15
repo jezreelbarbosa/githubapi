@@ -10,8 +10,10 @@ import Components
 import Stevia
 
 final class PullRequestsView: UIView {
+    // Views
 
     let tableView = UITableView()
+    let activity = UIActivityIndicatorView()
 
     // Lifecycle
 
@@ -26,17 +28,26 @@ final class PullRequestsView: UIView {
 
     private func initSubview() {
         sv(
-            tableView
+            tableView,
+            activity
         )
     }
 
     private func initLayout() {
         tableView.fillContainer()
+        activity.centerInContainer()
     }
 
     private func initStyle() {
         style { s in
-            s.backgroundColor = .white
+            s.backgroundColor = .secondarySystemBackground
+        }
+        tableView.style { s in
+            s.backgroundColor = .clear
+        }
+        activity.style { s in
+            s.style = .large
+            s.hidesWhenStopped = true
         }
     }
 

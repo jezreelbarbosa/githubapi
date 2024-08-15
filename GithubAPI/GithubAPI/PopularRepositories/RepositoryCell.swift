@@ -12,6 +12,7 @@ import Stevia
 final class RepositoryCell: UITableViewCell {
     // Properties
 
+    let contentStack = UIStackView()
     let infoStack = UIStackView()
     let nameLabel = UILabel()
     let descriptionLabel = UILabel()
@@ -40,33 +41,43 @@ final class RepositoryCell: UITableViewCell {
 
     private func initSubview() {
         contentView.sv(
-            infoStack.addArrangedSubviews(
-                nameLabel,
-                descriptionLabel,
-                statsStack.addArrangedSubviews(
-                    forkImageView,
-                    forkLabel,
-                    starImageView,
-                    starLabel
+            contentStack.addArrangedSubviews(
+                infoStack.addArrangedSubviews(
+                    nameLabel,
+                    descriptionLabel,
+                    statsStack.addArrangedSubviews(
+                        forkImageView,
+                        forkLabel,
+                        starImageView,
+                        starLabel
+                    )
+                ),
+                userStack.addArrangedSubviews(
+                    userImageView,
+                    userNickNameLabel,
+                    userFullNameLabel
                 )
-            ),
-            userStack.addArrangedSubviews(
-                userImageView,
-                userNickNameLabel,
-                userFullNameLabel
             )
         )
     }
 
     private func initLayout() {
-        infoStack.centerVertically().top(>=16).bottom(>=16).leading(16).width(60%).Trailing == userStack.Leading - 16
-        userStack.centerVertically().top(>=16).bottom(>=16).trailing(16)
+        contentStack.fillContainer(16)
+        userStack.width(104)
         forkImageView.size(12)
         starImageView.size(12)
         userImageView.size(36)
     }
 
     private func initStyle() {
+        style { s in
+            s.backgroundColor = .tertiarySystemBackground
+        }
+        contentStack.style { s in
+            s.axis = .horizontal
+            s.spacing = 16
+            s.alignment = .center
+        }
         infoStack.style { s in
             s.axis = .vertical
             s.spacing = 4
@@ -75,11 +86,11 @@ final class RepositoryCell: UITableViewCell {
         }
         nameLabel.style { s in
             s.font = .systemFont(ofSize: 15, weight: .semibold)
-            s.textColor = .blue
+            s.textColor = .systemBlue
         }
         descriptionLabel.style { s in
             s.font = .systemFont(ofSize: 12, weight: .regular)
-            s.textColor = .black
+            s.textColor = .label
             s.numberOfLines = 2
         }
 
@@ -92,20 +103,20 @@ final class RepositoryCell: UITableViewCell {
         forkImageView.style { s in
             s.image = .init(named: "fork")
             s.contentMode = .scaleAspectFit
-            s.tintColor = .orange
+            s.tintColor = .systemOrange
         }
         forkLabel.style { s in
             s.font = .systemFont(ofSize: 14, weight: .bold)
-            s.textColor = .orange
+            s.textColor = .systemOrange
         }
         starImageView.style { s in
             s.image = .init(named: "star.fill")
             s.contentMode = .scaleAspectFit
-            s.tintColor = .orange
+            s.tintColor = .systemOrange
         }
         starLabel.style { s in
             s.font = .systemFont(ofSize: 14, weight: .bold)
-            s.textColor = .orange
+            s.textColor = .systemOrange
         }
 
         userStack.style { s in
@@ -116,17 +127,17 @@ final class RepositoryCell: UITableViewCell {
         userImageView.style { s in
             s.image = .init(named: "person.fill")
             s.contentMode = .scaleAspectFit
-            s.tintColor = .lightGray
+            s.tintColor = .systemGray
             s.layer.masksToBounds = true
             s.layer.cornerRadius = 18
         }
         userNickNameLabel.style { s in
             s.font = .systemFont(ofSize: 12, weight: .regular)
-            s.textColor = .blue
+            s.textColor = .systemBlue
         }
         userFullNameLabel.style { s in
             s.font = .systemFont(ofSize: 12, weight: .regular)
-            s.textColor = .gray
+            s.textColor = .systemGray
         }
     }
 
@@ -134,11 +145,16 @@ final class RepositoryCell: UITableViewCell {
 
     func setContent(model: RepositoryModel) {
         nameLabel.text = model.name
-        descriptionLabel.text = model.description
         forkLabel.text = "\(model.forksCount)"
         starLabel.text = "\(model.stargazersCount)"
         userNickNameLabel.text = model.owner.login
+
+        descriptionLabel.isHidden = model.description == nil
+        descriptionLabel.text = model.description
+
+        userFullNameLabel.isHidden = model.owner.name == nil
         userFullNameLabel.text = model.owner.name
+
         if let url = model.owner.avatarUrl {
             userImageView.setImage(from: url)
         } else {

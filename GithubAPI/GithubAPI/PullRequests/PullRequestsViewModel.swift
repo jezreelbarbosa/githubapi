@@ -10,6 +10,8 @@ import Components
 protocol PullRequestsViewModeling {
     var pullrequests: [PullRequestModel] { get }
 
+    var navigationTitle: Box<String> { get }
+    var isLoading: Box<Bool> { get }
     var reloadData: Box<Void> { get }
     var reloadCell: Box<Int> { get }
     var pullsCount: Box<(opened: String, closed: String)> { get }
@@ -23,9 +25,11 @@ final class PullRequestsViewModel: PullRequestsViewModeling {
 
     var pullrequests: [PullRequestModel] = []
 
+    lazy var navigationTitle: Box<String> = Box(repository.name)
+    let isLoading: Box<Bool> = Box(false)
     let reloadData: Box<Void> = Box(())
     let reloadCell: Box<Int> = Box(0)
-    var pullsCount: Box<(opened: String, closed: String)> = Box(("", ""))
+    let pullsCount: Box<(opened: String, closed: String)> = Box(("", ""))
 
     let service: PullRequestsServicing
     let coordinator: PullRequestsCoordinating
@@ -37,12 +41,15 @@ final class PullRequestsViewModel: PullRequestsViewModeling {
         self.service = service
         self.coordinator = coordinator
         self.repository = repository
+
     }
 
     // Functions
 
     func loadPullResquests() {
+        isLoading.value = true
         service.loadPulls(repo: repository.name, owner: repository.owner.login) { [weak self] result in
+            self?.isLoading.value = false
             result.successHandler { models in
                 self?.handlePullRequests(pulls: models)
             }

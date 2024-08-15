@@ -57,6 +57,9 @@ final class PullRequestCell: UITableViewCell {
     }
 
     private func initStyle() {
+        style { s in
+            s.backgroundColor = .tertiarySystemBackground
+        }
         contentStack.style { s in
             s.axis = .vertical
             s.spacing = 4
@@ -64,16 +67,16 @@ final class PullRequestCell: UITableViewCell {
         }
         titleLabel.style { s in
             s.font = .systemFont(ofSize: 15, weight: .semibold)
-            s.textColor = .blue
+            s.textColor = .systemBlue
         }
         descriptionLabel.style { s in
             s.font = .systemFont(ofSize: 12, weight: .regular)
-            s.textColor = .black
+            s.textColor = .label
             s.numberOfLines = 2
         }
         dateLabel.style { s in
             s.font = .systemFont(ofSize: 12, weight: .regular)
-            s.textColor = .orange
+            s.textColor = .systemOrange
         }
 
         userInfoStack.style { s in
@@ -84,7 +87,7 @@ final class PullRequestCell: UITableViewCell {
         userImageView.style { s in
             s.image = .init(named: "person.fill")
             s.contentMode = .scaleAspectFit
-            s.tintColor = .lightGray
+            s.tintColor = .systemGray
             s.layer.masksToBounds = true
             s.layer.cornerRadius = 12
         }
@@ -95,11 +98,11 @@ final class PullRequestCell: UITableViewCell {
         }
         userNickNameLabel.style { s in
             s.font = .systemFont(ofSize: 12, weight: .regular)
-            s.textColor = .blue
+            s.textColor = .systemBlue
         }
         userFullNameLabel.style { s in
             s.font = .systemFont(ofSize: 12, weight: .regular)
-            s.textColor = .gray
+            s.textColor = .systemGray
         }
     }
 
@@ -107,10 +110,15 @@ final class PullRequestCell: UITableViewCell {
 
     func setContent(model: PullRequestModel) {
         titleLabel.text = model.title
-        descriptionLabel.text = model.body
         dateLabel.text = model.createdAt.formatted(date: .medium, time: .none)
         userNickNameLabel.text = model.user.login
+
+        descriptionLabel.isHidden = model.body == nil
+        descriptionLabel.text = model.body
+
+        userFullNameLabel.isHidden = model.user.name == nil
         userFullNameLabel.text = model.user.name
+
         if let url = model.user.avatarUrl {
             userImageView.setImage(from: url)
         } else {
