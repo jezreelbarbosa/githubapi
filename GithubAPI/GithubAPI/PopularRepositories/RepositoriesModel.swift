@@ -16,10 +16,10 @@ struct RepositoryModel: Decodable {
     let description: String?
     let forksCount: Int
     let stargazersCount: Int
-    var owner: Owner
+    var owner: OwnerModel
 }
 
-struct Owner: Decodable {
+struct OwnerModel: Decodable {
     let avatarUrl: URL?
     let login: String
     var name: String?

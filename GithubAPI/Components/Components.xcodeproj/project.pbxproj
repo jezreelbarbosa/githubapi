@@ -16,6 +16,7 @@
 		0D75CF2C2C6BC9D700C76438 /* Result+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75CF2B2C6BC9D700C76438 /* Result+Extension.swift */; };
 		0D989CCF2C6BE43E00A61C1F /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D989CCE2C6BE43E00A61C1F /* UIStackView+Extension.swift */; };
 		0D989CD52C6C5E7000A61C1F /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D989CD42C6C5E7000A61C1F /* UIImage+Extension.swift */; };
+		0D989CEF2C6D936100A61C1F /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D989CEE2C6D936100A61C1F /* Date+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		0D75CF2B2C6BC9D700C76438 /* Result+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Extension.swift"; sourceTree = "<group>"; };
 		0D989CCE2C6BE43E00A61C1F /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		0D989CD42C6C5E7000A61C1F /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		0D989CEE2C6D936100A61C1F /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,10 +118,11 @@
 		0D75CEED2C6BA0CB00C76438 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				0D75CEF62C6BA21800C76438 /* UITableView+Extension.swift */,
 				0D75CF2B2C6BC9D700C76438 /* Result+Extension.swift */,
-				0D989CCE2C6BE43E00A61C1F /* UIStackView+Extension.swift */,
 				0D989CD42C6C5E7000A61C1F /* UIImage+Extension.swift */,
+				0D989CCE2C6BE43E00A61C1F /* UIStackView+Extension.swift */,
+				0D75CEF62C6BA21800C76438 /* UITableView+Extension.swift */,
+				0D989CEE2C6D936100A61C1F /* Date+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 				0D75CEEF2C6BA0E900C76438 /* UICodeViewController.swift in Sources */,
 				0D75CEF12C6BA10C00C76438 /* Box.swift in Sources */,
 				0D989CD52C6C5E7000A61C1F /* UIImage+Extension.swift in Sources */,
+				0D989CEF2C6D936100A61C1F /* Date+Extension.swift in Sources */,
 				0D989CCF2C6BE43E00A61C1F /* UIStackView+Extension.swift in Sources */,
 				0D75CEF72C6BA21800C76438 /* UITableView+Extension.swift in Sources */,
 			);

@@ -14,13 +14,13 @@ protocol RepositoriesViewModeling {
     var reloadCell: Box<Int> { get }
 
     func loadNextPage()
-    func didSelect(item: RepositoryModel)
+    func didSelect(row: Int)
 }
 
 final class RepositoriesViewModel: RepositoriesViewModeling {
     // Properties
 
-    private(set) var repositories: [RepositoryModel] = []
+    var repositories: [RepositoryModel] = []
 
     let reloadData: Box<Void> = Box(())
     let reloadCell: Box<Int> = Box(0)
@@ -42,7 +42,8 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
     func loadNextPage() {
         service.loadPage(page) { [weak self] result in
             guard let self = self else { return }
-            result.successHandler { repos in
+            result.successHandler { model in
+                let repos = model.items
                 let count = self.repositories.count
                 self.page += 1
                 self.repositories.append(contentsOf: repos)
@@ -55,8 +56,9 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
         }
     }
 
-    func didSelect(item: RepositoryModel) {
-        coordinator.showPullRequestsView()
+    func didSelect(row: Int) {
+        let repo = repositories[row]
+        coordinator.showPullRequestsView(model: repo)
     }
 
     // Private functions
@@ -65,8 +67,8 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
         repos.enumerated().forEach { rIndex, repo in
             let index = rIndex + count
             service.loadName(with: repo.owner.login) { [weak self] result in
-                result.successHandler { name in
-                    self?.repositories[index].owner.name = name
+                result.successHandler { user in
+                    self?.repositories[index].owner.name = user.name
                     self?.reloadCell.value = index
                 }
                 result.failureHandler { error in

@@ -13,5 +13,5 @@ public enum TargetError: Error {
     case unknowError(Data?, URLResponse?, Error?)
     case clientError(Data, HTTPURLResponse)
     case serverError(Data, HTTPURLResponse)
-    case jsonError(Data, HTTPURLResponse)
+    case decodingError(Data, HTTPURLResponse, Error)
 }

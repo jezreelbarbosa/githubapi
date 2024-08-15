@@ -1,14 +1,14 @@
 //
-//  RepositoriesViewController.swift
+//  PullRequestsViewController.swift
 //  GithubAPI
 //
-//  Created by Jezreel Barbosa on 12/08/24.
+//  Created by Jezreel Barbosa on 14/08/24.
 //
 
 import UIKit
 import Components
 
-final class RepositoriesViewController: UICodeViewController<RepositoriesViewModeling, RepositoriesView> {
+final class PullRequestsViewController: UICodeViewController<PullRequestsViewModeling, PullRequestsView> {
     // Lifecycle
 
     override func viewDidLoad() {
@@ -27,25 +27,23 @@ final class RepositoriesViewController: UICodeViewController<RepositoriesViewMod
             }
         }
 
-        viewModel.loadNextPage()
+        viewModel.pullsCount.bind { [weak self] opened, closed in
+            self?.rootView.setContentPulls(opened: opened, closed: closed)
+        }
+
+        viewModel.loadPullResquests()
     }
 }
 
-extension RepositoriesViewController: UITableViewDataSource, UITableViewDelegate {
+extension PullRequestsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.repositories.count
+        viewModel.pullrequests.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(RepositoryCell.self)
-        cell.setContent(model: viewModel.repositories[indexPath.row])
+        let cell = tableView.dequeueReusableCell(PullRequestCell.self)
+        cell.setContent(model: viewModel.pullrequests[indexPath.row])
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == viewModel.repositories.count {
-            viewModel.loadNextPage()
-        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

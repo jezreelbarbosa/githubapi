@@ -6,11 +6,11 @@
 //
 
 import Networking
+import UIKit
 
 enum RepositoriesFactory {
-    static func make() -> RepositoriesViewController {
-        let dispatcher = Dispatcher()
-        let service = RepositoriesService(dispatcher: dispatcher)
+    static func make() -> UIViewController {
+        let service = RepositoriesService()
         let coordinator = RepositoriesCoordinator()
         let viewModel = RepositoriesViewModel(service: service, coordinator: coordinator)
         let controller = RepositoriesViewController(viewModel: viewModel)

@@ -112,7 +112,6 @@ final class RepositoryCell: UITableViewCell {
             s.axis = .vertical
             s.spacing = 2
             s.alignment = .center
-            s.distribution = .fill
         }
         userImageView.style { s in
             s.image = .init(named: "person.fill")

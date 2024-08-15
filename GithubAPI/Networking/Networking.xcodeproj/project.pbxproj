@@ -14,6 +14,7 @@
 		0D75CF262C6BB56100C76438 /* TargetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75CF252C6BB56100C76438 /* TargetError.swift */; };
 		0D75CF282C6BB78B00C76438 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75CF272C6BB78B00C76438 /* Dispatcher.swift */; };
 		0D989CD32C6C3C3F00A61C1F /* GitHubApiTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D989CD22C6C3C3F00A61C1F /* GitHubApiTarget.swift */; };
+		0D989CEC2C6D7A2800A61C1F /* ServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D989CEB2C6D7A2800A61C1F /* ServiceAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 		0D75CF252C6BB56100C76438 /* TargetError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetError.swift; sourceTree = "<group>"; };
 		0D75CF272C6BB78B00C76438 /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
 		0D989CD22C6C3C3F00A61C1F /* GitHubApiTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubApiTarget.swift; sourceTree = "<group>"; };
+		0D989CEB2C6D7A2800A61C1F /* ServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				0D75CF072C6BA9C800C76438 /* Networking.h */,
+				0D989CEB2C6D7A2800A61C1F /* ServiceAPI.swift */,
 				0D75CF272C6BB78B00C76438 /* Dispatcher.swift */,
 				0D75CF232C6BB54700C76438 /* TargetType.swift */,
 				0D75CF252C6BB56100C76438 /* TargetError.swift */,
@@ -204,6 +207,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D989CEC2C6D7A2800A61C1F /* ServiceAPI.swift in Sources */,
 				0D75CF242C6BB54700C76438 /* TargetType.swift in Sources */,
 				0D75CF262C6BB56100C76438 /* TargetError.swift in Sources */,
 				0D75CF282C6BB78B00C76438 /* Dispatcher.swift in Sources */,
