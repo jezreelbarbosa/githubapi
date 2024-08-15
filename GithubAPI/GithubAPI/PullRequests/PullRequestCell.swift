@@ -78,7 +78,7 @@ final class PullRequestCell: UITableViewCell {
 
         userInfoStack.style { s in
             s.axis = .horizontal
-            s.spacing = 4
+            s.spacing = 8
             s.alignment = .center
         }
         userImageView.style { s in

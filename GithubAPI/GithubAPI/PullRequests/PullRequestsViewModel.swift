@@ -53,14 +53,15 @@ final class PullRequestsViewModel: PullRequestsViewModeling {
     }
 
     func didSelect(row: Int) {
-        // Open web view
+        let url = pullrequests[row].htmlUrl
+        coordinator.showPullRequestDetails(url: url)
     }
 
     // Private functions
 
     private func handlePullRequests(pulls: [PullRequestModel]) {
         let opened = pulls.filter({ $0.state == .open })
-        pullrequests.append(contentsOf: opened)
+        pullrequests = opened
         reloadData.fire()
         getOwnersNames(for: opened)
 

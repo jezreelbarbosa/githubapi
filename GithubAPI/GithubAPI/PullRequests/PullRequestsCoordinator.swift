@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import SafariServices
 
 protocol PullRequestsCoordinating {
-
+    func showPullRequestDetails(url: URL)
 }
 
 final class PullRequestsCoordinator: PullRequestsCoordinating {
@@ -17,4 +18,10 @@ final class PullRequestsCoordinator: PullRequestsCoordinating {
     weak var viewController: UIViewController?
 
     // Functions
+
+    func showPullRequestDetails(url: URL) {
+        let safari = SFSafariViewController(url: url)
+        safari.modalPresentationStyle = .overFullScreen
+        viewController?.present(safari, animated: true)
+    }
 }
