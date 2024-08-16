@@ -14,7 +14,7 @@ MVVM com separação de responsabilidade em View para layout, Service para requi
 
 ## Escolhas feitas
 
-Decidi separar o Modulo de networking com funções de contrução de request para facilitar a construção de diversas classes de serviço e desacoplar a dependência da API através de protocolos
+Decidi separar o módulo de networking com funções de contrução de request para facilitar a construção de diversas classes de serviço e desacoplar a dependência da API através de protocolos
 
 Decidi separar o módulo de componentes para agrupar classes e funções reaproveitáveis relacionadas apenas as features implementadas
 
@@ -29,12 +29,12 @@ pod install
 
 Dentro do projeto no modulo 'Networking' abra o arquivo 'GitHubApiTarget.swift'
 Nele há um campo vazio chamado token, é necessário gerar e adicionar um token do github para evitar o limite de acesso da API
-Para mais detalhes visite "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28#primary-rate-limit-for-github_token-in-github-actions"
+Para mais detalhes visite "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens"
 
 Deve ficar algo como:
 ```
 let token = "ghp_xxxxxxxxxxxxxxxx"
 ```
 
-Com o token devidamente colocado e os pods instalados, apenas selecione um simulador no projeto e clique no ícone play no canto superior esquerdo do XCode
+Com o token devidamente colocado e os pods instalados, abra o arquivo 'GithubApi.xcworkspace' selecione um simulador no projeto e clique no ícone play no canto superior esquerdo do XCode
 Caso queira instalar num device físico, será necessário uma conta de desenvolvedor no projeto
