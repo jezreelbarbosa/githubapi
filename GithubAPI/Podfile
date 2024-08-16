@@ -1,0 +1,27 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '13.0'
+use_frameworks!
+
+# --- Pods ---
+
+def presentationPods
+  pod 'SteviaLayout', '~> 4.7.3'
+end
+
+# --- Targets ---
+
+target 'GithubAPI' do
+  # Pods for GithubAPI
+  project 'GithubAPI'
+  presentationPods
+
+  target 'GithubAPITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'GithubAPIUITests' do
+    # Pods for testing
+  end
+
+end
