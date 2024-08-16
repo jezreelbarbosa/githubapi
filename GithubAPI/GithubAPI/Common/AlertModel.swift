@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AlertModel {
+struct AlertModel: Equatable {
     let title: String
     let message: String
     let button: String

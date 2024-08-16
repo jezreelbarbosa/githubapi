@@ -10,7 +10,7 @@ import Foundation
 public protocol TargetType {
     var baseURL: String { get }
     var path: String { get }
-    var parameters: [String: Any]? { get }
+    var parameters: [String: String]? { get }
     var cachePolicy: URLRequest.CachePolicy { get }
     var method: String { get }
     var body: Data? { get }

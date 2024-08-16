@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PullRequestModel: Decodable {
+struct PullRequestModel: Equatable, Decodable {
     let title: String
     let body: String?
     let state: PullRequestStateModel
@@ -16,7 +16,7 @@ struct PullRequestModel: Decodable {
     var user: OwnerModel
 }
 
-enum PullRequestStateModel: String, Decodable {
+enum PullRequestStateModel: String, Equatable, Decodable {
     case `open`
     case closed
 }

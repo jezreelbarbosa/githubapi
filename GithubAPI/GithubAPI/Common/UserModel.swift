@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct OwnerModel: Decodable {
+struct OwnerModel: Equatable, Decodable {
     let avatarUrl: URL?
     let login: String
     var name: String?
 }
 
-struct UserModel: Decodable {
+struct UserModel: Equatable, Decodable {
     let name: String?
 }

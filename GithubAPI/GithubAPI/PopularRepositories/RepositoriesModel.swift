@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct RepositoriesModel: Decodable {
+struct RepositoriesModel: Equatable, Decodable {
     let items: [RepositoryModel]
 }
 
-struct RepositoryModel: Decodable {
+struct RepositoryModel: Equatable, Decodable {
     let name: String
     let description: String?
     let forksCount: Int

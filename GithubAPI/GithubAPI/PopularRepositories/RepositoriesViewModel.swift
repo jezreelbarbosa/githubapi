@@ -10,10 +10,10 @@ import Components
 protocol RepositoriesViewModeling {
     var repositories: [RepositoryModel] { get }
 
-    var isLoading: Box<Bool> { get }
-    var isTableLoading: Box<Bool> { get }
-    var reloadData: Box<Void> { get }
-    var reloadCell: Box<Int> { get }
+    var isLoadingBox: Box<Bool> { get }
+    var isTableLoadingBox: Box<Bool> { get }
+    var reloadDataBox: Box<Void> { get }
+    var reloadCellBox: Box<Int> { get }
     var alertBox: Box<AlertModel> { get }
 
     func loadNextPage()
@@ -26,13 +26,12 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
 
     var repositories: [RepositoryModel] = []
 
-    let isLoading: Box<Bool> = Box(false)
-    let isTableLoading: Box<Bool> = Box(false)
-    let reloadData: Box<Void> = Box(())
-    let reloadCell: Box<Int> = Box(0)
+    let isLoadingBox: Box<Bool> = Box(false)
+    let isTableLoadingBox: Box<Bool> = Box(false)
+    let reloadDataBox: Box<Void> = Box(())
+    let reloadCellBox: Box<Int> = Box(0)
     let alertBox: Box<AlertModel> = Box(.errorAlert)
-
-    var page: Int = 1
+    let pageBox: Box<Int> = Box(1)
 
     let service: RepositoriesServicing
     let coordinator: RepositoriesCoordinating
@@ -47,21 +46,21 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
     // Functions
 
     func loadNextPage() {
-        if page == 1 {
-            isLoading.value = true
+        if pageBox.value == 1 {
+            isLoadingBox.value = true
         } else {
-            isTableLoading.value = true
+            isTableLoadingBox.value = true
         }
-        service.loadPage(page) { [weak self] result in
+        service.loadPage(pageBox.value) { [weak self] result in
             guard let self = self else { return }
-            self.isLoading.value = false
-            self.isTableLoading.value = false
+            self.isLoadingBox.value = false
+            self.isTableLoadingBox.value = false
             result.successHandler { model in
                 let repos = model.items
                 let count = self.repositories.count
-                self.page += 1
+                self.pageBox.value += 1
                 self.repositories.append(contentsOf: repos)
-                self.reloadData.fire()
+                self.reloadDataBox.fire()
                 self.getOwnersNames(for: repos, count: count)
             }
             result.failureHandler { error in
@@ -77,9 +76,9 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
     }
 
     func reloadPage() {
-        page = 1
+        pageBox.value = 1
         repositories = []
-        reloadData.fire()
+        reloadDataBox.fire()
         loadNextPage()
     }
 
@@ -91,7 +90,7 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
             service.loadName(with: repo.owner.login) { [weak self] result in
                 result.successHandler { user in
                     self?.repositories[index].owner.name = user.name
-                    self?.reloadCell.value = index
+                    self?.reloadCellBox.value = index
                 }
                 result.failureHandler { error in
                     print(error)

@@ -9,7 +9,7 @@ import Foundation
 
 fileprivate let token = ""
 
-public struct GitHubApiTarget: TargetType {
+public struct GitHubApiTarget: Equatable, TargetType {
     public var baseURL: String = "https://api.github.com"
     public var body: Data? = nil
     public var headers: [String : String]? = [
@@ -20,11 +20,11 @@ public struct GitHubApiTarget: TargetType {
     public var method: String = "GET"
 
     public var path: String
-    public var parameters: [String : Any]?
+    public var parameters: [String : String]?
 
     public init(
         path: String,
-        parameters: [String : Any]? = nil
+        parameters: [String : String]? = nil
     ) {
         self.path = path
         self.parameters = parameters

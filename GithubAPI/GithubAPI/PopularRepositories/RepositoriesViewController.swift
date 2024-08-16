@@ -17,20 +17,21 @@ final class RepositoriesViewController: UICodeViewController<RepositoriesViewMod
         rootView.tableView.dataSource = self
         rootView.tableView.delegate = self
 
-        viewModel.isLoading.bind { [weak self] isLoading in
+        viewModel.isLoadingBox.bind { [weak self] isLoading in
             self?.rootView.activity.animate(isLoading)
         }
-        viewModel.isTableLoading.bind { [weak self] isLoading in
+        viewModel.isTableLoadingBox.bind { [weak self] isLoading in
             self?.rootView.tableActivity.animate(isLoading)
         }
-        viewModel.reloadData.bind { [weak self] _ in
+        viewModel.reloadDataBox.bind { [weak self] _ in
             DispatchQueue.main.async {
                 self?.rootView.tableView.reloadData()
             }
         }
-        viewModel.reloadCell.bind { [weak self] row in
+        viewModel.reloadCellBox.bind { [weak self] row in
             DispatchQueue.main.async {
-                self?.rootView.tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
+                let index = [IndexPath(row: row, section: 0)]
+                self?.rootView.tableView.reloadRows(at: index, with: .none)
             }
         }
         viewModel.alertBox.bind { [weak self] model in
