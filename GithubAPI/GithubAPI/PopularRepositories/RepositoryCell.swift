@@ -85,11 +85,13 @@ final class RepositoryCell: UITableViewCell {
             s.alignment = .leading
         }
         nameLabel.style { s in
-            s.font = .systemFont(ofSize: 15, weight: .semibold)
+            s.font = .preferredFont(forTextStyle: .headline)
+            s.adjustsFontForContentSizeCategory = true
             s.textColor = .systemBlue
         }
         descriptionLabel.style { s in
-            s.font = .systemFont(ofSize: 12, weight: .regular)
+            s.font = .preferredFont(forTextStyle: .caption1)
+            s.adjustsFontForContentSizeCategory = true
             s.textColor = .label
             s.numberOfLines = 2
         }
@@ -106,7 +108,8 @@ final class RepositoryCell: UITableViewCell {
             s.tintColor = .systemOrange
         }
         forkLabel.style { s in
-            s.font = .systemFont(ofSize: 14, weight: .bold)
+            s.font = .preferredFont(forTextStyle: .footnote)
+            s.adjustsFontForContentSizeCategory = true
             s.textColor = .systemOrange
         }
         starImageView.style { s in
@@ -115,7 +118,8 @@ final class RepositoryCell: UITableViewCell {
             s.tintColor = .systemOrange
         }
         starLabel.style { s in
-            s.font = .systemFont(ofSize: 14, weight: .bold)
+            s.font = .preferredFont(forTextStyle: .footnote)
+            s.adjustsFontForContentSizeCategory = true
             s.textColor = .systemOrange
         }
 
@@ -132,11 +136,13 @@ final class RepositoryCell: UITableViewCell {
             s.layer.cornerRadius = 18
         }
         userNickNameLabel.style { s in
-            s.font = .systemFont(ofSize: 12, weight: .regular)
+            s.font = .preferredFont(forTextStyle: .caption1)
+            s.adjustsFontForContentSizeCategory = true
             s.textColor = .systemBlue
         }
         userFullNameLabel.style { s in
-            s.font = .systemFont(ofSize: 12, weight: .regular)
+            s.font = .preferredFont(forTextStyle: .caption2)
+            s.adjustsFontForContentSizeCategory = true
             s.textColor = .systemGray
         }
     }

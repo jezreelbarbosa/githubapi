@@ -15,39 +15,48 @@ final class PullRequestsViewController: UICodeViewController<PullRequestsViewMod
         rootView.tableView.dataSource = self
         rootView.tableView.delegate = self
 
-        viewModel.navigationTitle.bindAndFire { [weak self] title in
+        viewModel.navigationTitleBox.bindAndFire { [weak self] title in
             self?.navigationItem.title = title
         }
-        viewModel.isLoading.bind { [weak self] isLoading in
+        viewModel.isLoadingBox.bind { [weak self] isLoading in
             self?.rootView.activity.animate(isLoading)
         }
-        viewModel.reloadData.bind { [weak self] _ in
+        viewModel.pullrequestsBox.bind { [weak self] _ in
             DispatchQueue.main.async {
                 self?.rootView.tableView.reloadData()
             }
         }
-        viewModel.reloadCell.bind { [weak self] row in
+        viewModel.alertBox.bind { [weak self] model in
+            let alert = UIAlertController(title: model.title, message: model.message, preferredStyle: .alert)
+            let action = UIAlertAction(title: model.button, style: .default) { [weak alert] _ in
+                self?.viewModel.reloadPage()
+                alert?.dismiss(animated: true)
+            }
+            alert.addAction(action)
             DispatchQueue.main.async {
-                self?.rootView.tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
+                self?.present(alert, animated: true)
             }
         }
-
-        viewModel.pullsCount.bind { [weak self] opened, closed in
-            self?.rootView.setContentPulls(opened: opened, closed: closed)
-        }
+        rootView.segmentedControl.addTarget(self, action: #selector(didSelectedSegment), for: .valueChanged)
 
         viewModel.loadPullResquests()
+    }
+
+    // Functions
+
+    @objc func didSelectedSegment() {
+        viewModel.didSelectSegment(index: rootView.segmentedControl.selectedSegmentIndex)
     }
 }
 
 extension PullRequestsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.pullrequests.count
+        viewModel.pullrequestsBox.value.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(PullRequestCell.self)
-        cell.setContent(model: viewModel.pullrequests[indexPath.row])
+        cell.setContent(model: viewModel.pullrequestsBox.value[indexPath.row])
         return cell
     }
 

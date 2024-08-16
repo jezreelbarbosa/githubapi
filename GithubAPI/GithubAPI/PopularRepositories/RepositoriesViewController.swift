@@ -33,6 +33,17 @@ final class RepositoriesViewController: UICodeViewController<RepositoriesViewMod
                 self?.rootView.tableView.reloadRows(at: [IndexPath(row: row, section: 0)], with: .none)
             }
         }
+        viewModel.alertBox.bind { [weak self] model in
+            let alert = UIAlertController(title: model.title, message: model.message, preferredStyle: .alert)
+            let action = UIAlertAction(title: model.button, style: .default) { [weak alert] _ in
+                self?.viewModel.reloadPage()
+                alert?.dismiss(animated: true)
+            }
+            alert.addAction(action)
+            DispatchQueue.main.async {
+                self?.present(alert, animated: true)
+            }
+        }
 
         viewModel.loadNextPage()
     }

@@ -14,6 +14,7 @@ final class RepositoriesView: UIView {
 
     let tableView = UITableView()
     let activity = UIActivityIndicatorView()
+
     let footerView = UIView()
     let tableActivity = UIActivityIndicatorView()
 

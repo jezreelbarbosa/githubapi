@@ -8,28 +8,29 @@
 import Components
 
 protocol PullRequestsViewModeling {
-    var pullrequests: [PullRequestModel] { get }
-
-    var navigationTitle: Box<String> { get }
-    var isLoading: Box<Bool> { get }
-    var reloadData: Box<Void> { get }
-    var reloadCell: Box<Int> { get }
-    var pullsCount: Box<(opened: String, closed: String)> { get }
+    var navigationTitleBox: Box<String> { get }
+    var pullrequestsBox: Box<[PullRequestModel]> { get }
+    var isLoadingBox: Box<Bool> { get }
+    var reloadCellBox: Box<Int> { get }
+    var alertBox: Box<AlertModel> { get }
 
     func loadPullResquests()
+    func didSelectSegment(index: Int)
     func didSelect(row: Int)
+    func reloadPage()
 }
 
 final class PullRequestsViewModel: PullRequestsViewModeling {
     // Properties
 
-    var pullrequests: [PullRequestModel] = []
+    var allPullrequests: [PullRequestModel] = []
 
-    lazy var navigationTitle: Box<String> = Box(repository.name)
-    let isLoading: Box<Bool> = Box(false)
-    let reloadData: Box<Void> = Box(())
-    let reloadCell: Box<Int> = Box(0)
-    let pullsCount: Box<(opened: String, closed: String)> = Box(("", ""))
+    let navigationTitleBox: Box<String>
+
+    let pullrequestsBox: Box<[PullRequestModel]> = Box([])
+    let isLoadingBox: Box<Bool> = Box(false)
+    let reloadCellBox: Box<Int> = Box(0)
+    let alertBox: Box<AlertModel> = Box(.errorAlert)
 
     let service: PullRequestsServicing
     let coordinator: PullRequestsCoordinating
@@ -41,53 +42,68 @@ final class PullRequestsViewModel: PullRequestsViewModeling {
         self.service = service
         self.coordinator = coordinator
         self.repository = repository
-
+        self.navigationTitleBox = Box(repository.name)
     }
 
     // Functions
 
     func loadPullResquests() {
-        isLoading.value = true
+        isLoadingBox.value = true
         service.loadPulls(repo: repository.name, owner: repository.owner.login) { [weak self] result in
-            self?.isLoading.value = false
             result.successHandler { models in
-                self?.handlePullRequests(pulls: models)
+                self?.getOwnersNames(for: models)
             }
             result.failureHandler { error in
+                self?.alertBox.value = .errorAlert
                 print(error)
             }
         }
     }
 
     func didSelect(row: Int) {
-        let url = pullrequests[row].htmlUrl
+        let url = pullrequestsBox.value[row].htmlUrl
         coordinator.showPullRequestDetails(url: url)
+    }
+
+    func reloadPage() {
+        allPullrequests = []
+        pullrequestsBox.value = []
+        loadPullResquests()
+    }
+
+    func didSelectSegment(index: Int) {
+        switch index {
+        case 0: // Open
+            pullrequestsBox.value = allPullrequests.filter({ $0.state == .open })
+        case 1: // Closed
+            pullrequestsBox.value = allPullrequests.filter({ $0.state == .closed })
+        default: // All
+            pullrequestsBox.value = allPullrequests
+        }
     }
 
     // Private functions
 
-    private func handlePullRequests(pulls: [PullRequestModel]) {
-        let opened = pulls.filter({ $0.state == .open })
-        pullrequests = opened
-        reloadData.fire()
-        getOwnersNames(for: opened)
-
-        let openedCount = opened.count
-        let closedCount = pulls.count - openedCount
-        pullsCount.value = ("\(openedCount)", "\(closedCount)")
-    }
-
     private func getOwnersNames(for pulls: [PullRequestModel]) {
+        let group = DispatchGroup()
+        var pulls = pulls
         pulls.enumerated().forEach { index, pull in
-            service.loadName(with: pull.user.login) { [weak self] result in
+            group.enter()
+            service.loadName(with: pull.user.login) { result in
+                group.leave()
                 result.successHandler { user in
-                    self?.pullrequests[index].user.name = user.name
-                    self?.reloadCell.value = index
+                    pulls[index].user.name = user.name
                 }
                 result.failureHandler { error in
                     print(error)
                 }
             }
+        }
+        group.notify(queue: .global(qos: .userInitiated)) { [weak self] in
+            guard let self = self else { return }
+            self.allPullrequests = pulls
+            self.pullrequestsBox.value = pulls.filter({ $0.state == .open })
+            self.isLoadingBox.value = false
         }
     }
 }

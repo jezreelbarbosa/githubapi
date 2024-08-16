@@ -18,13 +18,3 @@ struct RepositoryModel: Decodable {
     let stargazersCount: Int
     var owner: OwnerModel
 }
-
-struct OwnerModel: Decodable {
-    let avatarUrl: URL?
-    let login: String
-    var name: String?
-}
-
-struct UserModel: Decodable {
-    let name: String?
-}

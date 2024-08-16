@@ -14,6 +14,7 @@ final class PullRequestsView: UIView {
 
     let tableView = UITableView()
     let activity = UIActivityIndicatorView()
+    let segmentedControl = UISegmentedControl()
 
     // Lifecycle
 
@@ -28,19 +29,27 @@ final class PullRequestsView: UIView {
 
     private func initSubview() {
         sv(
+            segmentedControl,
             tableView,
             activity
         )
     }
 
     private func initLayout() {
-        tableView.fillContainer()
+        segmentedControl.fillHorizontally(m: 16).Top == safeAreaLayoutGuide.Top + 8
+        tableView.fillHorizontally().bottom(0).Top == segmentedControl.Bottom + 16
         activity.centerInContainer()
     }
 
     private func initStyle() {
         style { s in
             s.backgroundColor = .secondarySystemBackground
+        }
+        segmentedControl.style { s in
+            s.insertSegment(withTitle: "Open", at: 0, animated: false)
+            s.insertSegment(withTitle: "Closed", at: 1, animated: false)
+            s.insertSegment(withTitle: "All", at: 2, animated: false)
+            s.selectedSegmentIndex = 0
         }
         tableView.style { s in
             s.backgroundColor = .clear

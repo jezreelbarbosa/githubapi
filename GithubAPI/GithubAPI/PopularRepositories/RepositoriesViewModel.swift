@@ -14,9 +14,11 @@ protocol RepositoriesViewModeling {
     var isTableLoading: Box<Bool> { get }
     var reloadData: Box<Void> { get }
     var reloadCell: Box<Int> { get }
+    var alertBox: Box<AlertModel> { get }
 
     func loadNextPage()
     func didSelect(row: Int)
+    func reloadPage()
 }
 
 final class RepositoriesViewModel: RepositoriesViewModeling {
@@ -28,6 +30,7 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
     let isTableLoading: Box<Bool> = Box(false)
     let reloadData: Box<Void> = Box(())
     let reloadCell: Box<Int> = Box(0)
+    let alertBox: Box<AlertModel> = Box(.errorAlert)
 
     var page: Int = 1
 
@@ -62,6 +65,7 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
                 self.getOwnersNames(for: repos, count: count)
             }
             result.failureHandler { error in
+                self.alertBox.value = .errorAlert
                 print(error)
             }
         }
@@ -70,6 +74,13 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
     func didSelect(row: Int) {
         let repo = repositories[row]
         coordinator.showPullRequestsView(model: repo)
+    }
+
+    func reloadPage() {
+        page = 1
+        repositories = []
+        reloadData.fire()
+        loadNextPage()
     }
 
     // Private functions

@@ -66,16 +66,19 @@ final class PullRequestCell: UITableViewCell {
             s.alignment = .leading
         }
         titleLabel.style { s in
-            s.font = .systemFont(ofSize: 15, weight: .semibold)
+            s.font = .preferredFont(forTextStyle: .headline)
+            s.adjustsFontForContentSizeCategory = true
             s.textColor = .systemBlue
         }
         descriptionLabel.style { s in
-            s.font = .systemFont(ofSize: 12, weight: .regular)
+            s.font = .preferredFont(forTextStyle: .caption1)
+            s.adjustsFontForContentSizeCategory = true
             s.textColor = .label
             s.numberOfLines = 2
         }
         dateLabel.style { s in
-            s.font = .systemFont(ofSize: 12, weight: .regular)
+            s.font = .preferredFont(forTextStyle: .caption1)
+            s.adjustsFontForContentSizeCategory = true
             s.textColor = .systemOrange
         }
 
@@ -97,11 +100,13 @@ final class PullRequestCell: UITableViewCell {
             s.alignment = .leading
         }
         userNickNameLabel.style { s in
-            s.font = .systemFont(ofSize: 12, weight: .regular)
+            s.font = .preferredFont(forTextStyle: .caption1)
+            s.adjustsFontForContentSizeCategory = true
             s.textColor = .systemBlue
         }
         userFullNameLabel.style { s in
-            s.font = .systemFont(ofSize: 12, weight: .regular)
+            s.font = .preferredFont(forTextStyle: .caption2)
+            s.adjustsFontForContentSizeCategory = true
             s.textColor = .systemGray
         }
     }
