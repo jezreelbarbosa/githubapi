@@ -59,10 +59,4 @@ final class PullRequestsView: UIView {
             s.hidesWhenStopped = true
         }
     }
-
-    // Functions
-
-    func setContentPulls(opened: String, closed: String) {
-        print("\(opened) opened / \(closed) closed")
-    }
 }

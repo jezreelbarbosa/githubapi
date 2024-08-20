@@ -72,6 +72,8 @@ final class RepositoryCell: UITableViewCell {
     private func initStyle() {
         style { s in
             s.backgroundColor = .tertiarySystemBackground
+            s.isAccessibilityElement = true
+            s.accessibilityTraits = .button
         }
         contentStack.style { s in
             s.axis = .horizontal
@@ -166,5 +168,10 @@ final class RepositoryCell: UITableViewCell {
         } else {
             userImageView.image = .init(named: "person.fill")
         }
+
+        let accDescription = "\(model.name). \(model.description ?? ""). "
+        let accCount = "\(model.forksCount) Forks. \(model.stargazersCount) Stars. "
+        let accUser = "From \(model.owner.name ?? model.owner.login)"
+        accessibilityLabel = accDescription + accCount + accUser
     }
 }
