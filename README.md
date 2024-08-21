@@ -12,7 +12,7 @@ A solução adotada foi montar duas telas listando os repositórios populares em
 
 - Fonte dinâmica
 <div align=center>
-  <img src="https://github.com/user-attachments/assets/87070b69-c15f-44d8-89ed-64b77232a4e2" width=375 />
+  <img src="https://github.com/user-attachments/assets/b03a9acc-4763-4853-823e-4386ca74927a" width=375 />
   <img src="https://github.com/user-attachments/assets/1772ee13-b354-41e9-9b58-07bc6bf72861" width=375 />
 </div>
 
