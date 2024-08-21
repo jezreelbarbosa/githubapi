@@ -37,14 +37,14 @@ final class PullRequestsViewController: UICodeViewController<PullRequestsViewMod
                 self?.present(alert, animated: true)
             }
         }
-        rootView.segmentedControl.addTarget(self, action: #selector(didSelectedSegment), for: .valueChanged)
+        rootView.segmentedControl.addTarget(self, action: #selector(didSelectSegment), for: .valueChanged)
 
         viewModel.loadPullResquests()
     }
 
     // Functions
 
-    @objc func didSelectedSegment() {
+    @objc func didSelectSegment() {
         viewModel.didSelectSegment(index: rootView.segmentedControl.selectedSegmentIndex)
     }
 }

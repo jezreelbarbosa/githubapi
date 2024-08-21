@@ -59,6 +59,8 @@ final class PullRequestCell: UITableViewCell {
     private func initStyle() {
         style { s in
             s.backgroundColor = .tertiarySystemBackground
+            s.isAccessibilityElement = true
+            s.accessibilityTraits = .button
         }
         contentStack.style { s in
             s.axis = .vertical
@@ -129,5 +131,10 @@ final class PullRequestCell: UITableViewCell {
         } else {
             userImageView.image = .init(named: "person.fill")
         }
+
+        let accDescription = "\(model.title). "
+        let accDate = "Created at \(model.createdAt.formatted(date: .long, time: .none)). "
+        let accUser = "From \(model.user.name ?? model.user.login)"
+        accessibilityLabel = accDescription + accDate + accUser
     }
 }

@@ -4,6 +4,24 @@
 
 A solução adotada foi montar duas telas listando os repositórios populares em swift e listando os PRs de cada repositório, na segunda tela é possivel escolher entre mostrar os PRs abertos, fechados ou todos
 
+- O app possui cores dinâmicas em light e dark mode
+<div align=center>
+  <img src="https://github.com/user-attachments/assets/87070b69-c15f-44d8-89ed-64b77232a4e2" width=375 />
+  <img src="https://github.com/user-attachments/assets/17467563-877f-4de5-b23d-65373a160928" width=375 />
+</div>
+
+- Fonte dinâmica
+<div align=center>
+  <img src="https://github.com/user-attachments/assets/87070b69-c15f-44d8-89ed-64b77232a4e2" width=375 />
+  <img src="https://github.com/user-attachments/assets/1772ee13-b354-41e9-9b58-07bc6bf72861" width=375 />
+</div>
+
+- Fonte em negrito e accessibilidade de leitura de célula inteira da lista
+<div align=center>
+  <img src="https://github.com/user-attachments/assets/86a6c283-44a5-4d63-a838-cd65d0f80091" width=375 />
+  <img src="https://github.com/user-attachments/assets/f0e45e8e-299f-4f7f-90c3-413b72079e4e" width=375 />
+</div>
+
 ## Libs Utilizadas
 
 Apenas 'Stevia' para facilitar a construção de auto-layout
