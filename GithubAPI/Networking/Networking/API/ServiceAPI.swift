@@ -15,10 +15,14 @@ open class ServiceAPI {
     public let dispacher: Dispatching
     public let jsonDecoder: JSONDecoder
 
+    // Lifecycle
+
     public init(dispacher: Dispatching, jsonDecoder: JSONDecoder) {
         self.dispacher = dispacher
         self.jsonDecoder = jsonDecoder
     }
+
+    // Functions
 
     public func makeRequest<T>(endpoint: TargetType, completion: @escaping ServiceAPICompletion<T>) {
         dispacher.call(endpoint: endpoint) { [weak jsonDecoder] result in

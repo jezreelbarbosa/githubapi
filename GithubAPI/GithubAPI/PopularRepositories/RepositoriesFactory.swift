@@ -10,9 +10,9 @@ import UIKit
 
 enum RepositoriesFactory {
     static func make() -> UIViewController {
-        let service = RepositoriesService()
+        let services = GitHubAPIServices()
         let coordinator = RepositoriesCoordinator()
-        let viewModel = RepositoriesViewModel(service: service, coordinator: coordinator)
+        let viewModel = RepositoriesViewModel(services: services, coordinator: coordinator)
         let controller = RepositoriesViewController(viewModel: viewModel)
         coordinator.viewController = controller
         return controller

@@ -6,10 +6,11 @@
 //
 
 import Components
+import Networking
 
 protocol PullRequestsViewModeling {
     var navigationTitleBox: Box<String> { get }
-    var pullrequestsBox: Box<[PullRequestModel]> { get }
+    var pullrequestsBox: Box<[PullRequestDisplayModel]> { get }
     var isLoadingBox: Box<Bool> { get }
     var reloadCellBox: Box<Int> { get }
     var alertBox: Box<AlertModel> { get }
@@ -23,23 +24,24 @@ protocol PullRequestsViewModeling {
 final class PullRequestsViewModel: PullRequestsViewModeling {
     // Properties
 
-    var allPullrequests: [PullRequestModel] = []
+    var allPullrequests: [PullRequestDisplayModel] = []
 
     let navigationTitleBox: Box<String>
 
-    let pullrequestsBox: Box<[PullRequestModel]> = Box([])
+    let pullrequestsBox: Box<[PullRequestDisplayModel]> = Box([])
     let isLoadingBox: Box<Bool> = Box(false)
     let reloadCellBox: Box<Int> = Box(0)
     let alertBox: Box<AlertModel> = Box(.errorAlert)
 
-    let service: PullRequestsServicing
+    typealias Services = HasPullRequestsService & HasUserInfoService
+    let services: Services
     let coordinator: PullRequestsCoordinating
-    let repository: RepositoryModel
+    let repository: RepositoryDisplayModel
 
     // Lifecycle
 
-    init(service: PullRequestsServicing, coordinator: PullRequestsCoordinating, repository: RepositoryModel) {
-        self.service = service
+    init(services: Services, coordinator: PullRequestsCoordinating, repository: RepositoryDisplayModel) {
+        self.services = services
         self.coordinator = coordinator
         self.repository = repository
         self.navigationTitleBox = Box(repository.name)
@@ -49,7 +51,7 @@ final class PullRequestsViewModel: PullRequestsViewModeling {
 
     func loadPullResquests() {
         isLoadingBox.value = true
-        service.loadPulls(repo: repository.name, owner: repository.owner.login) { [weak self] result in
+        services.pullRequestsServices.loadPulls(owner: repository.username, repo: repository.name) { [weak self] result in
             result.successHandler { models in
                 self?.getOwnersNames(for: models)
             }
@@ -86,13 +88,13 @@ final class PullRequestsViewModel: PullRequestsViewModeling {
 
     private func getOwnersNames(for pulls: [PullRequestModel]) {
         let group = DispatchGroup()
-        var pulls = pulls
-        pulls.enumerated().forEach { index, pull in
+        var pullsDisplay = pulls.map(\.displayModel)
+        pullsDisplay.enumerated().forEach { index, pull in
             group.enter()
-            service.loadName(with: pull.user.login) { result in
+            services.userInfoServices.loadUser(with: pull.username) { result in
                 group.leave()
                 result.successHandler { user in
-                    pulls[index].user.name = user.name
+                    pullsDisplay[index].fullname = user.name
                 }
                 result.failureHandler { error in
                     print(error)
@@ -101,8 +103,8 @@ final class PullRequestsViewModel: PullRequestsViewModeling {
         }
         group.notify(queue: .global(qos: .userInitiated)) { [weak self] in
             guard let self = self else { return }
-            self.allPullrequests = pulls
-            self.pullrequestsBox.value = pulls.filter({ $0.state == .open })
+            self.allPullrequests = pullsDisplay
+            self.pullrequestsBox.value = pullsDisplay.filter({ $0.state == .open })
             self.isLoadingBox.value = false
         }
     }

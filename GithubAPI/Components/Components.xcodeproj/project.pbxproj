@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D73E4812C88FDE200E78AD9 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D73E4802C88FDE200E78AD9 /* AlertModel.swift */; };
 		0D75CEDC2C6BA0A600C76438 /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D75CED32C6BA0A600C76438 /* Components.framework */; };
 		0D75CEE12C6BA0A600C76438 /* ComponentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75CEE02C6BA0A600C76438 /* ComponentsTests.swift */; };
 		0D75CEE22C6BA0A600C76438 /* Components.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D75CED62C6BA0A600C76438 /* Components.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D73E4802C88FDE200E78AD9 /* AlertModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		0D75CED32C6BA0A600C76438 /* Components.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Components.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D75CED62C6BA0A600C76438 /* Components.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Components.h; sourceTree = "<group>"; };
 		0D75CEDB2C6BA0A600C76438 /* ComponentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ComponentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +114,7 @@
 		0D75CEEC2C6BA0C000C76438 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				0D73E4802C88FDE200E78AD9 /* AlertModel.swift */,
 				0D75CEF02C6BA10C00C76438 /* Box.swift */,
 			);
 			path = Helpers;
@@ -247,6 +250,7 @@
 				0D989CEF2C6D936100A61C1F /* Date+Extension.swift in Sources */,
 				0D989CF12C6E6B8100A61C1F /* UIActivityIndicatorView+Extension.swift in Sources */,
 				0D989CCF2C6BE43E00A61C1F /* UIStackView+Extension.swift in Sources */,
+				0D73E4812C88FDE200E78AD9 /* AlertModel.swift in Sources */,
 				0D75CEF72C6BA21800C76438 /* UITableView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

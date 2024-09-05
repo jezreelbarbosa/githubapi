@@ -8,7 +8,7 @@
 import UIKit
 
 protocol RepositoriesCoordinating {
-    func showPullRequestsView(model: RepositoryModel)
+    func showPullRequestsView(model: RepositoryDisplayModel)
 }
 
 final class RepositoriesCoordinator: RepositoriesCoordinating {
@@ -18,7 +18,7 @@ final class RepositoriesCoordinator: RepositoriesCoordinating {
 
     // Functions
 
-    func showPullRequestsView(model: RepositoryModel) {
+    func showPullRequestsView(model: RepositoryDisplayModel) {
         let navigation = viewController?.navigationController
         let controller = PullRequestsFactory.make(model: model)
         navigation?.pushViewController(controller, animated: true)
