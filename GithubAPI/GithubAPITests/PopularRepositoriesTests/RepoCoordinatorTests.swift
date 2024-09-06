@@ -17,8 +17,8 @@ extension RepositoriesCoordinatorTests {
         let viewController = UIViewControllerSpy()
         let navigation = UINavigationControllerSpy()
 
-        let model = RepositoryModel(name: "", description: "", forksCount: 0, stargazersCount: 0,
-                                    owner: OwnerModel(avatarUrl: nil, login: ""))
+        let model = RepositoryDisplayModel(name: "", forks: "", stars: "", username: "",
+                                           description: "", avatarUrl: nil)
     }
 
     func makeSut() -> (Sut, Fields) {

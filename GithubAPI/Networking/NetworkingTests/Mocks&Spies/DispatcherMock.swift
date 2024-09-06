@@ -14,4 +14,3 @@ final class DispatcherMock: Dispatching {
         callImpl(endpoint, completion)
     }
 }
-    

@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias AllGitHubAPIServices = HasUserInfoService & HasPullRequestsService & HasRepositoriesService
+public typealias AllGitHubAPIServices = HasUserInfoService & HasPullRequestsService & HasRepositoriesService
 
 public final class GitHubAPIServices: ServiceAPI, AllGitHubAPIServices {
     // Services

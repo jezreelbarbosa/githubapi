@@ -6,6 +6,8 @@
 //
 
 import XCTest
+import Components
+@testable import Networking
 @testable import GithubAPI
 
 extension RepoViewModelTests {
@@ -14,7 +16,15 @@ extension RepoViewModelTests {
     final class Fields {
         var events: [String] = []
 
-        let service = RepositoriesServiceMock()
+        let repositoriesService = RepositoriesServiceMock()
+        let pullRequestsServices = PullRequestsServiceMock()
+        let userInfoServices = UserInfoServiceMock()
+
+        lazy var services = GitHubAPIServicesMock(
+            repositoriesService: repositoriesService,
+            pullRequestsServices: pullRequestsServices,
+            userInfoServices: userInfoServices
+        )
         let coordinator = RepositoriesCoordinatorMock()
     }
 
@@ -28,8 +38,7 @@ extension RepoViewModelTests {
                 stargazersCount: Int.random(in: 0...999),
                 owner: OwnerModel(
                     avatarUrl: URL(string: UUID().uuidString),
-                    login: UUID().uuidString,
-                    name: nil
+                    login: UUID().uuidString
                 )
             )
             repos.append(repo)
@@ -39,7 +48,7 @@ extension RepoViewModelTests {
 
     func makeSut() -> (Sut, Fields) {
         let fields = Fields()
-        let sut = Sut(service: fields.service, coordinator: fields.coordinator)
+        let sut = Sut(services: fields.services, coordinator: fields.coordinator)
         sut.isLoadingBox.bind { [weak fields] isLoading in
             fields?.events.append("loading:\(isLoading)")
         }
@@ -66,20 +75,21 @@ final class RepoViewModelTests: XCTestCase {
     func testLoadNextPage_whenServiceIsSuccess_shouldAddRepos_shouldGetNames() {
         let (sut, fields) = makeSut()
 
-        var repos = makeRepositories(count: 1)
+        let repos = makeRepositories(count: 1)
+        var mappedRepos = repos.map(\.displayModel)
         let login = repos[0].owner.login
         let user = UserModel(name: UUID().uuidString)
 
         var loadCompletion: RepositoriesCompletion?
-        var nameCompletion: NameCompletion?
+        var userCompletion: UserInfoCompletion?
 
-        fields.service.loadPageImpl = { [weak fields] page, completion in
+        fields.repositoriesService.loadPageImpl = { [weak fields] page, completion in
             fields?.events.append("loadPage:\(page)")
             loadCompletion = completion
         }
-        fields.service.loadNameImpl = { [weak fields] login, completion in
-            fields?.events.append("loadName:\(login)")
-            nameCompletion = completion
+        fields.userInfoServices.loadUserImpl = { [weak fields] login, completion in
+            fields?.events.append("loadUser:\(login)")
+            userCompletion = completion
         }
 
         XCTAssertEqual(sut.repositories, [])
@@ -90,26 +100,26 @@ final class RepoViewModelTests: XCTestCase {
         loadCompletion?(.success(.init(items: repos)))
         XCTAssertEqual(fields.events, ["loading:true", "loadPage:1", "loading:false",
                                        "tableLoading:false", "page:2", "reloadData",
-                                       "loadName:\(login)"])
-        XCTAssertEqual(sut.repositories, repos)
+                                       "loadUser:\(login)"])
+        XCTAssertEqual(sut.repositories, mappedRepos)
 
-        nameCompletion?(.success(user))
+        userCompletion?(.success(user))
         XCTAssertEqual(fields.events, ["loading:true", "loadPage:1", "loading:false",
                                        "tableLoading:false", "page:2", "reloadData",
-                                       "loadName:\(login)", "cell:0"])
-        repos[0].owner.name = user.name
-        XCTAssertEqual(sut.repositories, repos)
+                                       "loadUser:\(login)", "cell:0"])
+        mappedRepos[0].fullName = user.name
+        XCTAssertEqual(sut.repositories, mappedRepos)
     }
 
     func testLoadNextPage_whenCallingManyTimes_shouldDisplayTableLoading_shouldApendRepos() {
         let (sut, fields) = makeSut()
         let repos = makeRepositories(count: 1)
         var loadCompletion: RepositoriesCompletion?
-        fields.service.loadPageImpl = { [weak fields] page, completion in
+        fields.repositoriesService.loadPageImpl = { [weak fields] page, completion in
             fields?.events.append("loadPage:\(page)")
             loadCompletion = completion
         }
-        fields.service.loadNameImpl = { [weak fields] _, _ in
+        fields.userInfoServices.loadUserImpl = { [weak fields] _, _ in
             fields?.events.append("loadName")
         }
         sut.loadNextPage()
@@ -120,13 +130,14 @@ final class RepoViewModelTests: XCTestCase {
                                        "tableLoading:false", "page:2", "reloadData", "loadName",
                                        "tableLoading:true", "loadPage:2", "loading:false",
                                        "tableLoading:false", "page:3", "reloadData", "loadName"])
-        XCTAssertEqual(sut.repositories, repos + repos)
+        let mapped = (repos + repos).map(\.displayModel)
+        XCTAssertEqual(sut.repositories, mapped)
     }
 
     func testLoadNextPage_whenServiceIsFailure_shouldDisplayAlert() {
         let (sut, fields) = makeSut()
         var loadCompletion: RepositoriesCompletion?
-        fields.service.loadPageImpl = { [weak fields] page, completion in
+        fields.repositoriesService.loadPageImpl = { [weak fields] page, completion in
             fields?.events.append("loadPage:\(page)")
             loadCompletion = completion
         }
@@ -140,7 +151,7 @@ final class RepoViewModelTests: XCTestCase {
 
     func testDidSelectRow_whenWithRepositories_shouldSelectCorrectly() {
         let (sut, fields) = makeSut()
-        let repos = makeRepositories(count: 10)
+        let repos = makeRepositories(count: 10).map(\.displayModel)
         let row = Int.random(in: 0..<10)
         XCTAssertEqual(sut.repositories, [])
         sut.repositories = repos
@@ -156,7 +167,7 @@ final class RepoViewModelTests: XCTestCase {
         let (sut, fields) = makeSut()
         let page = Int.random(in: 1...10)
         sut.pageBox.value = page
-        fields.service.loadPageImpl = { [weak fields] page, completion in
+        fields.repositoriesService.loadPageImpl = { [weak fields] page, completion in
             fields?.events.append("loadPage:\(page)")
         }
         XCTAssertEqual(fields.events, ["page:\(page)"])

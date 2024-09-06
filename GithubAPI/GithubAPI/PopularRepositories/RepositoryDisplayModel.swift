@@ -7,7 +7,7 @@
 
 import Networking
 
-struct RepositoryDisplayModel {
+struct RepositoryDisplayModel: Equatable {
     let name: String
     let forks: String
     let stars: String

@@ -7,7 +7,7 @@
 
 import Networking
 
-struct PullRequestDisplayModel {
+struct PullRequestDisplayModel: Equatable {
     let title: String
     let body: String?
     let createdAt: Date
