@@ -6,9 +6,10 @@
 //
 
 import Components
+import Networking
 
 protocol RepositoriesViewModeling {
-    var repositories: [RepositoryModel] { get }
+    var repositories: [RepositoryDisplayModel] { get }
 
     var isLoadingBox: Box<Bool> { get }
     var isTableLoadingBox: Box<Bool> { get }
@@ -24,7 +25,7 @@ protocol RepositoriesViewModeling {
 final class RepositoriesViewModel: RepositoriesViewModeling {
     // Properties
 
-    var repositories: [RepositoryModel] = []
+    var repositories: [RepositoryDisplayModel] = []
 
     let isLoadingBox: Box<Bool> = Box(false)
     let isTableLoadingBox: Box<Bool> = Box(false)
@@ -33,13 +34,14 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
     let alertBox: Box<AlertModel> = Box(.errorAlert)
     let pageBox: Box<Int> = Box(1)
 
-    let service: RepositoriesServicing
+    typealias Services = HasRepositoriesService & HasUserInfoService
+    let services: Services
     let coordinator: RepositoriesCoordinating
 
     // Lifecycle
 
-    init(service: RepositoriesServicing, coordinator: RepositoriesCoordinating) {
-        self.service = service
+    init(services: Services, coordinator: RepositoriesCoordinating) {
+        self.services = services
         self.coordinator = coordinator
     }
 
@@ -51,12 +53,12 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
         } else {
             isTableLoadingBox.value = true
         }
-        service.loadPage(pageBox.value) { [weak self] result in
+        services.repositoriesService.loadPage(pageBox.value) { [weak self] result in
             guard let self = self else { return }
             self.isLoadingBox.value = false
             self.isTableLoadingBox.value = false
             result.successHandler { model in
-                let repos = model.items
+                let repos = model.items.map(\.displayModel)
                 let count = self.repositories.count
                 self.pageBox.value += 1
                 self.repositories.append(contentsOf: repos)
@@ -84,12 +86,12 @@ final class RepositoriesViewModel: RepositoriesViewModeling {
 
     // Private functions
 
-    private func getOwnersNames(for repos: [RepositoryModel], count: Int) {
+    private func getOwnersNames(for repos: [RepositoryDisplayModel], count: Int) {
         repos.enumerated().forEach { rIndex, repo in
             let index = rIndex + count
-            service.loadName(with: repo.owner.login) { [weak self] result in
+            services.userInfoServices.loadUser(with: repo.username) { [weak self] result in
                 result.successHandler { user in
-                    self?.repositories[index].owner.name = user.name
+                    self?.repositories[index].fullName = user.name
                     self?.reloadCellBox.value = index
                 }
                 result.failureHandler { error in

@@ -20,7 +20,7 @@ final class PullRequestCell: UITableViewCell {
     let userInfoStack = UIStackView()
     let userImageView = UIImageView()
     let userNameStack = UIStackView()
-    let userNickNameLabel = UILabel()
+    let userNameLabel = UILabel()
     let userFullNameLabel = UILabel()
 
     // Lifecycle
@@ -43,7 +43,7 @@ final class PullRequestCell: UITableViewCell {
                 userInfoStack.addArrangedSubviews(
                     userImageView,
                     userNameStack.addArrangedSubviews(
-                        userNickNameLabel,
+                        userNameLabel,
                         userFullNameLabel
                     )
                 )
@@ -101,7 +101,7 @@ final class PullRequestCell: UITableViewCell {
             s.spacing = 2
             s.alignment = .leading
         }
-        userNickNameLabel.style { s in
+        userNameLabel.style { s in
             s.font = .preferredFont(forTextStyle: .caption1)
             s.adjustsFontForContentSizeCategory = true
             s.textColor = .systemBlue
@@ -113,28 +113,27 @@ final class PullRequestCell: UITableViewCell {
         }
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        userImageView.image = .init(named: "person.fill")
+    }
+
     // Functions
 
-    func setContent(model: PullRequestModel) {
+    func setContent(model: PullRequestDisplayModel) {
         titleLabel.text = model.title
-        dateLabel.text = model.createdAt.formatted(date: .medium, time: .none)
-        userNickNameLabel.text = model.user.login
+        dateLabel.text = model.date
+        userNameLabel.text = model.username
 
         descriptionLabel.isHidden = model.body == nil
         descriptionLabel.text = model.body
 
-        userFullNameLabel.isHidden = model.user.name == nil
-        userFullNameLabel.text = model.user.name
+        userFullNameLabel.isHidden = model.fullname == nil
+        userFullNameLabel.text = model.fullname
 
-        if let url = model.user.avatarUrl {
+        if let url = model.avatarUrl {
             userImageView.setImage(from: url)
-        } else {
-            userImageView.image = .init(named: "person.fill")
         }
-
-        let accDescription = "\(model.title). "
-        let accDate = "Created at \(model.createdAt.formatted(date: .long, time: .none)). "
-        let accUser = "From \(model.user.name ?? model.user.login)"
-        accessibilityLabel = accDescription + accDate + accUser
+        accessibilityLabel = model.accessibilityLabel
     }
 }

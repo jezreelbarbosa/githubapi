@@ -9,10 +9,10 @@ import Networking
 import UIKit
 
 enum PullRequestsFactory {
-    static func make(model: RepositoryModel) -> UIViewController {
-        let service = PullRequestsService()
+    static func make(model: RepositoryDisplayModel) -> UIViewController {
+        let services = GitHubAPIServices()
         let coordinator = PullRequestsCoordinator()
-        let viewModel = PullRequestsViewModel(service: service, coordinator: coordinator, repository: model)
+        let viewModel = PullRequestsViewModel(services: services, coordinator: coordinator, repository: model)
         let controler = PullRequestsViewController(viewModel: viewModel)
         coordinator.viewController = controler
         return controler

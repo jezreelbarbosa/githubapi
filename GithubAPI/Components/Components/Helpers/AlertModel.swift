@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct AlertModel: Equatable {
-    let title: String
-    let message: String
-    let button: String
+public struct AlertModel: Equatable {
+    public let title: String
+    public let message: String
+    public let button: String
 }
 
-extension AlertModel {
+public extension AlertModel {
     static var errorAlert: AlertModel {
         AlertModel(
             title: "Something went wrong",

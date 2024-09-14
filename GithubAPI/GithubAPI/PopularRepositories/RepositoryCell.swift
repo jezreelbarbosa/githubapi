@@ -149,29 +149,28 @@ final class RepositoryCell: UITableViewCell {
         }
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        userImageView.image = .init(named: "person.fill")
+    }
+
     // Functions
 
-    func setContent(model: RepositoryModel) {
+    func setContent(model: RepositoryDisplayModel) {
         nameLabel.text = model.name
-        forkLabel.text = "\(model.forksCount)"
-        starLabel.text = "\(model.stargazersCount)"
-        userNickNameLabel.text = model.owner.login
+        forkLabel.text = model.forks
+        starLabel.text = model.stars
+        userNickNameLabel.text = model.username
 
         descriptionLabel.isHidden = model.description == nil
         descriptionLabel.text = model.description
 
-        userFullNameLabel.isHidden = model.owner.name == nil
-        userFullNameLabel.text = model.owner.name
+        userFullNameLabel.isHidden = model.fullName == nil
+        userFullNameLabel.text = model.fullName
 
-        if let url = model.owner.avatarUrl {
+        if let url = model.avatarUrl {
             userImageView.setImage(from: url)
-        } else {
-            userImageView.image = .init(named: "person.fill")
         }
-
-        let accDescription = "\(model.name). \(model.description ?? ""). "
-        let accCount = "\(model.forksCount) Forks. \(model.stargazersCount) Stars. "
-        let accUser = "From \(model.owner.name ?? model.owner.login)"
-        accessibilityLabel = accDescription + accCount + accUser
+        accessibilityLabel = model.accessibilityLabel
     }
 }
